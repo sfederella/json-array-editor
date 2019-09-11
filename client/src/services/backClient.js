@@ -19,8 +19,8 @@ const backClient = {
 			next(json);
 		});
 	},
-	getStatus: (next) => {
-		fetch('http://localhost:5000/api/status')
+	getSize: (next) => {
+		fetch('http://localhost:5000/api/size')
 		.then( async response => {
 			var json = await response.json();
 			next(json);

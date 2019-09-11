@@ -4,33 +4,16 @@ const api = express.Router();
 const cors = require('cors');
 api.use(cors());
 
-const jsonarrayFile = 'recipes-short.json'
+const jsonarrayFile = 'recipes.json'
 const jsonarray = require(`../data/${jsonarrayFile}`);
-
-fs.writeFile(`data/${jsonarrayFile}.bak`, JSON.stringify(jsonarray), (err) => {
-  if (err) throw err;
-  console.log('The backup has been saved!');
-});
 
 api.get('/', (req, res) => {
   res.send({message: 'Hello from the API.'});
 });
 
-api.get('/status', (req, res) => {
-  fs.readFile('data/status.json', (err, status) => {
-    if (err) {
-      const initialStatus = {
-        size: jsonarray.length,
-        lastUpdated: -1
-      };
-      fs.writeFile('data/status.json', JSON.stringify(initialStatus), (err) => {
-        if (err) throw err;
-        console.log('The status has been updated.');
-        res.send(initialStatus)
-      });
-    } else {
-      res.send(JSON.parse(status));
-    }
+api.get('/size', (req, res) => {
+  res.send({
+    size: jsonarray.length,
   });
 });
 
@@ -53,15 +36,10 @@ api.put('/jsonarray/:index', (req, res) => {
     console.log('The jsonarray has been updated.');
     res.send({success: 'The jsonarray has been updated.'})
   });
-  const status = {
-    size: jsonarray.length,
-    lastUpdated: i
-  };
-  console.log(JSON.stringify(status));
-  fs.writeFile('data/status.json', JSON.stringify(status), (err) => {
-    if (err) throw err;
-    console.log('The status has been updated.');
-  });
+});
+
+api.get('/jsonarray', (req, res) => {
+  res.send(jsonarray);
 });
 
 module.exports = api;
