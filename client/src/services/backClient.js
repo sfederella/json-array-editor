@@ -1,6 +1,6 @@
 const backClient = {
 	putJsonArrayAt: (json, index, next) => {
-		fetch('http://localhost:5000/api/jsonarray/' + index, {
+		fetch('/api/jsonarray/' + index, {
 			method: 'PUT',
 			body: JSON.stringify(json),
 			headers: {
@@ -13,14 +13,14 @@ const backClient = {
 		});
 	},
 	getJsonArrayAt: (index, next) => {
-		fetch('http://localhost:5000/api/jsonarray/' + index)
+		fetch('/api/jsonarray/' + index)
 		.then( async response => {
 			var json = await response.json();
 			next(json);
 		});
 	},
 	getSize: (next) => {
-		fetch('http://localhost:5000/api/size')
+		fetch('/api/size')
 		.then( async response => {
 			var json = await response.json();
 			next(json);
